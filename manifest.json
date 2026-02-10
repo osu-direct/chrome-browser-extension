@@ -1,0 +1,36 @@
+{
+    "manifest_version": 3,
+    "name": "osu.direct Mirror",
+    "version": "1.0",
+    "description": "Adds an osu.direct mirror download button to beatmap pages",
+    "icons": {
+        "48": "icons/icon48.png"
+    },
+    "permissions": [
+        "downloads",
+        "tabs",
+        "activeTab"
+    ],
+    "background": {
+        "service_worker": "dist/background.js"
+    },
+    "host_permissions": [
+        "https://osu.direct/api/d/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://osu.ppy.sh/beatmapsets/*"
+            ],
+            "js": [
+                "dist/content.js"
+            ]
+        }
+    ],
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "osu-direct-extension@osu.direct",
+            "strict_min_version": "109.0"
+        }
+    }
+}

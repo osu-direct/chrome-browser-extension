@@ -1,0 +1,12 @@
+{
+  "name": "browser-extension",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.1.36"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
