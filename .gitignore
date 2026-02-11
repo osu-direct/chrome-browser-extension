@@ -4,6 +4,9 @@ node_modules
 # output
 out
 dist
+dist-build
+build
+release
 *.tgz
 
 # code coverage
