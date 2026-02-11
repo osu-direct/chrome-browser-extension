@@ -135,30 +135,41 @@ function tryInject() {
   if (!id || !container || document.getElementById("osu-direct-download"))
     return;
 
-  const original = document.querySelector<HTMLAnchorElement>(
-    'a.btn-osu-big--beatmapset-header[href*="/download"]',
-  );
-  if (!original) return;
+  const btn = document.createElement("button");
 
-  const clone = original.cloneNode(true) as HTMLAnchorElement;
-  clone.id = "osu-direct-download";
-  const topText = clone.querySelector(".btn-osu-big__text-top");
-  if (topText) topText.textContent = "osu.direct Mirror";
-  clone.style.filter = "hue-rotate(146deg) saturate(1.5)";
-  clone.href = "#";
-  clone.onclick = (e) => {
-    e.preventDefault();
-    downloadBeatmap(id);
-  };
+  btn.id = "osu-direct-download";
+  btn.type = "button";
+  btn.className = "btn-osu-big btn-osu-big--beatmapset-header";
+  btn.style.filter = "saturate(1.5) hue-rotate(146deg)";
+  btn.innerHTML = `
+    <span class="btn-osu-big__content">
+      <span class="btn-osu-big__left">
+        <span class="btn-osu-big__text-top">Mirror</span>
+        <span class="btn-osu-big__text-bottom">osu.direct</span>
+      </span>
+      <span class="btn-osu-big__icon">
+        <span class="fa fa-fw"><span class="fas fa-download"></span></span>
+      </span>
+    </span>`;
+  btn.onclick = () => downloadBeatmap(id);
 
-  container.appendChild(clone);
+  container.appendChild(btn);
 }
 
-
 setInterval(() => {
+  const regex = /\/beatmapsets\/(\d+)(?:#\w+\/\d+)?$/;
+  const match =
+    location.pathname.match(regex) ||
+    (location.pathname + location.hash).match(regex);
+  if (!match) return;
   if (location.href !== currentUrl) {
-    currentUrl = location.href;
+    console.log("Url changed!");
     document.getElementById("osu-direct-download")?.remove();
+    tryInject();
+
+    const mirrorButton = document.getElementById("osu-direct-download");
+    if (mirrorButton) {
+      currentUrl = location.href;
+    }
   }
-  tryInject();
-}, 500);
+}, 250);
