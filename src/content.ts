@@ -163,7 +163,6 @@ setInterval(() => {
     (location.pathname + location.hash).match(regex);
   if (!match) return;
   if (location.href !== currentUrl) {
-    console.log("Url changed!");
     document.getElementById("osu-direct-download")?.remove();
     tryInject();
 
